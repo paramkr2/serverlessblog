@@ -5,12 +5,20 @@ import { Link } from 'react-router-dom';
 import { Button, Card, CardContent, Typography, Box, Pagination } from '@mui/material';
 import { onAuthStateChanged } from 'firebase/auth';
 import { parse } from 'node-html-parser'; // Import node-html-parser to parse HTML content
+import { useSelector } from 'react-redux';
+import { deleteBlogEntry } from '../store/blogSlice';
+import { useDispatch } from 'react-redux'; // Import useDispatch
 
 const BlogList = () => {
+  const dispatch = useDispatch(); // Initialize dispatch
   const [blogs, setBlogs] = useState([]); // Initialize blogs as an empty array
   const [page, setPage] = useState(1);
   const [loggedIn, setLoggedIn] = useState(false);
   const blogsPerPage = 10;
+  let blogEntries = useSelector((state) => state.blog.entries); // Adjust according to your state structur
+
+
+
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -27,6 +35,17 @@ const BlogList = () => {
       } catch (error) {
         console.error("Error fetching blogs: ", error);
       }
+
+      //now append the new blog entries to the front 
+      console.log(blogEntries)
+      const parsedBlogs = blogEntries.map((entry) => ({
+        id: entry.id,
+        ...parseBlogContent(entry.content), // Assuming content is stored as `content`
+      }));
+      console.log(parsedBlogs)
+      // Update the local state by appending new entries to the front
+      setBlogs((prevBlogs) => [...parsedBlogs, ...prevBlogs]);
+      
     };
 
     // Monitor auth state
@@ -78,9 +97,17 @@ const BlogList = () => {
   // Function to delete a blog post
   const handleDelete = async (id) => {
     try {
-      await deleteDoc(doc(db, 'blog', id)); // Delete the document from Firestore
-      setBlogs(blogs.filter(blog => blog.id !== id)); // Update local state
-      alert('Blog post deleted successfully.'); // Optional: Show success message
+      let index = blogEntries.findIndex(entry => entry.id === id)
+      let blogData;
+      if( index != -1 ){ // i.e if exists in redux store 
+        dispatch(deleteBlogEntry({id}))
+        alert('Redux Blog post deleted successfully.'); // Optional: Show success message
+      
+      }else{
+        await deleteDoc(doc(db, 'blog', id)); // Delete the document from Firestore
+        setBlogs(blogs.filter(blog => blog.id !== id)); // Update local state
+        alert('FIrebase Blog post deleted successfully.'); // Optional: Show success message
+      }
     } catch (error) {
       console.error('Error deleting blog post: ', error);
       alert('Error deleting blog post.'); // Optional: Show error message
@@ -91,7 +118,6 @@ const BlogList = () => {
 
   return (
     <div>
-      <h1>Blog List</h1>
       <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 2, justifyContent: 'center' }}>
         {displayedBlogs.map(blog => (
           <Card key={blog.id} sx={{ width: '80%', marginBottom: 2, position: 'relative' }}>
