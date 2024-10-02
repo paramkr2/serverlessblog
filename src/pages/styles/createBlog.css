@@ -1,0 +1,9 @@
+
+
+.editorPage{
+	margin:auto;
+	margin-top:50px;
+	border:2px solid lightgrey;
+	border-radius: 10px;
+	max-width: 800px;
+}

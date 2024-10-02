@@ -20,6 +20,7 @@
     "@tiptap/extension-code": "^2.8.0",
     "@tiptap/extension-code-block-lowlight": "^2.8.0",
     "@tiptap/extension-hard-break": "^2.8.0",
+    "@tiptap/extension-heading": "^2.8.0",
     "@tiptap/extension-history": "^2.8.0",
     "@tiptap/extension-horizontal-rule": "^2.8.0",
     "@tiptap/extension-image": "^2.8.0",
@@ -33,11 +34,18 @@
     "@tiptap/extension-underline": "^2.8.0",
     "@tiptap/react": "^2.8.0",
     "@tiptap/starter-kit": "^2.8.0",
+    "a": "^3.0.1",
+    "axios": "^1.7.7",
+    "classnames": "^2.5.1",
     "firebase": "^10.13.2",
     "framer-motion": "^11.9.0",
+    "lucide-react": "^0.447.0",
+    "node-html-parser": "^6.1.13",
     "react": "^18.3.1",
+    "react-bootstrap-icons": "^1.11.4",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.26.2"
+    "react-router-dom": "^6.26.2",
+    "sonner": "^1.5.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",

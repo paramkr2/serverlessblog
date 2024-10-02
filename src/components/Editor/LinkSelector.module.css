@@ -1,0 +1,56 @@
+/* LinkSelector.module.css */
+.linkSelectorContainer {
+  display: flex;
+  width: 100%;
+  min-width: 300px;
+  align-items: center;
+}
+
+.linkForm {
+  display: flex;
+  width: 100%;
+  border-radius: 4px;
+  background-color: #262625;
+  padding: 4px;
+  animation: fadeInSlideIn 0.3s ease-in-out;
+}
+
+.linkInput {
+  flex: 1;
+  background-color: #262625;
+  font-size: 14px;
+  color: white;
+  outline: none;
+  border: none;
+}
+
+.removeButton,
+.submitButton,
+.cancelButton {
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease-in-out;
+}
+
+.removeButton {
+  color: red;
+}
+
+.submitButton,
+.cancelButton {
+  color: white;
+}
+
+/* Optional animation keyframe for fade-in and slide-in effect */
+@keyframes fadeInSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

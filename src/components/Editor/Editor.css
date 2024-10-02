@@ -2,7 +2,7 @@
   min-height: 50vh;
   border: none; /* Remove the border */
   padding: 16px; /* Optional padding */
-  background-color: #f5f5f5; /* Optional background color */
+  background-color: #fffff; /* Optional background color */
 }
 
 .ProseMirror {
@@ -12,13 +12,23 @@
   border: none; /* Make it borderless */
 }
 
-.tiptap p.is-empty::before {
-  color: #adb5bd;
-  content: attr(data-placeholder);
-  float: left;
-  height: 0;
-  pointer-events: none;
-}
+.is-empty:first-child::before {
+    --gray-4: #D3D3D3;
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
+
+.is-empty::before {
+    --gray-4: #D3D3D3;
+    color: var(--gray-4);
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    pointer-events: none;
+  }
 
 
 .tiptap {

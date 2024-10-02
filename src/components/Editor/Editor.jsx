@@ -1,11 +1,11 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect,useState, useRef } from 'react';
 import { useEditor , EditorContent,BubbleMenu } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Placeholder from '@tiptap/extension-placeholder';
 import Document from '@tiptap/extension-document'
-
+import BubbleMenuBar from './BubbleMenu.jsx'
 import './Editor.css'; // Import CSS for custom styles
-
+import FloatingMenuBar from './FloatingMenu';
 
 const CustomDocument = Document.extend({
   content: 'heading block*',
@@ -13,11 +13,21 @@ const CustomDocument = Document.extend({
 
 
 const Editor = ({ content, setContent }) => {
+	const [isUploading, setIsUploading] = useState(false);
+	  const [showLinkSelector, setShowLinkSelector] = useState(false);
+	  const [showBubbleMenu, setShowBubbleMenu] = useState(true);
+	  const [showFloatingMenu, setShowFloatingMenu] = useState(false);
+	  const [showPlusButton, setShowPlusButton] = useState(false);
+
+
+
   // Initialize TipTap editor
   const editor = useEditor({
     extensions: [
       CustomDocument,
-      StarterKit,
+      StarterKit.configure({
+        document: false,
+      }),
       Placeholder.configure({
         placeholder: ({ node }) => {
           if (node.type.name === 'heading') {
@@ -40,30 +50,21 @@ const Editor = ({ content, setContent }) => {
 
   return (
     <div className="editor-container">
-      {editor && 
-        <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>
-          <div className="bubble-menu">
-            <button
-              onClick={() => editor.chain().focus().toggleBold().run()}
-              className={editor.isActive('bold') ? 'is-active' : ''}
-            >
-              Bold
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleItalic().run()}
-              className={editor.isActive('italic') ? 'is-active' : ''}
-            >
-              Italic
-            </button>
-            <button
-              onClick={() => editor.chain().focus().toggleStrike().run()}
-              className={editor.isActive('strike') ? 'is-active' : ''}
-            >
-              Strike
-            </button>
-          </div>
-        </BubbleMenu>
-      }
+      {editor && (<BubbleMenuBar 
+	      editor={editor} 
+	      showBubbleMenu={showBubbleMenu} 
+	      showLinkSelector={showLinkSelector} 
+	      setShowLinkSelector={setShowLinkSelector} 
+	    />)}
+
+      {editor && (<FloatingMenuBar 
+	      editor={editor}
+	      showPlusButton={showPlusButton}
+	      showFloatingMenu={showFloatingMenu}
+	      setShowFloatingMenu={setShowFloatingMenu}
+	      isUploading={isUploading}
+	      setIsUploading={setIsUploading}
+	    />)}
 
       <EditorContent editor={editor} />
     </div>
